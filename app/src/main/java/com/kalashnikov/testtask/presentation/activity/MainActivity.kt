@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         // При открытии app активируется кнопка Главная (Нижняя навигационная панель)
         binding.bNav.selectedItemId = R.id.home
 
+        // Основные категории
         // При открытии app первым открывается экран Главная (Fragment)
         supportFragmentManager.beginTransaction().replace(R.id.fLayout, MainFragment.newInstance())
             .commit()
