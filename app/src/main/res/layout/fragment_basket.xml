@@ -13,11 +13,11 @@
         android:src="@drawable/ic_user"
         app:layout_constraintBottom_toBottomOf="@+id/textDate"
         app:layout_constraintEnd_toEndOf="@+id/rcView"
-        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textCity"
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -36,8 +36,8 @@
         android:text="12 Августа, 2023"
         android:textColor="#787878"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/textCity"
+        app:layout_constraintTop_toBottomOf="@+id/textCity" />
 
     <ImageView
         android:id="@+id/imageView"

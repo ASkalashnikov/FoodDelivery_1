@@ -3,8 +3,6 @@ package com.kalashnikov.testtask.domain.management
 import com.kalashnikov.testtask.data.Data
 import com.kalashnikov.testtask.domain.adapter.CategoriesData
 import com.kalashnikov.testtask.domain.usecase.GetCategories
-import java.util.*
-import kotlin.collections.ArrayList
 
 object Function {
 
@@ -31,50 +29,25 @@ object Function {
             }
         }
 
-        Variables.listAll.clear()
-        Variables.listAll.addAll(list)
+        AppContext.listAll.clear()
+        AppContext.listAll.addAll(list)
         // На перерисовку адаптера
-        Variables.categoriesAdapter.updateAdapter(list)
+        AppContext.categoriesAdapter.updateAdapter(list)
     }
 
     fun basketCounter() {
-        for (i in Variables.basketList.indices) {
-            Variables.basketCounterList.add(1)
+        for (i in AppContext.basketList.indices) {
+            AppContext.basketCounterList.add(1)
         }
     }
 
     // Пересчитываем сумму товара в корзине
     fun reckonPrice() {
         var price = 0
-        for (i in Variables.basketList.indices) {
-            price += Variables.basketCounterList[i] * Variables.basketList[i].price
+        for (i in AppContext.basketList.indices) {
+            price += AppContext.basketCounterList[i] * AppContext.basketList[i].price
         }
         // Отправили окончательную сумму на кнопку "Оплатить"
-        Variables.mvvm.savePriceAll(price)
-    }
-
-    fun getDateCalendar() {
-        val cal = Calendar.getInstance()
-
-        val listCalendar = listOf(
-            "Января",
-            "Февраля",
-            "Марта",
-            "Апреля",
-            "Мая",
-            "Июня",
-            "Июля",
-            "Августа",
-            "Сентября",
-            "Октября",
-            "Ноября",
-            "Декабря"
-        )
-
-        Variables.mvvm.date(
-            "${cal.get(Calendar.DAY_OF_MONTH)} " +
-                    "${listCalendar[cal.get(Calendar.MONTH)]} " +
-                    "${cal.get(Calendar.YEAR)}"
-        )
+        AppContext.mvvm.savePriceAll(price)
     }
 }

@@ -1,7 +1,7 @@
 package com.kalashnikov.testtask.domain.usecase
 
 import com.kalashnikov.testtask.domain.adapter.CategoriesData
-import com.kalashnikov.testtask.domain.management.Variables
+import com.kalashnikov.testtask.domain.management.AppContext
 
 object RcViewCategories {
 
@@ -20,8 +20,8 @@ object RcViewCategories {
             list.add(data)
         }
 
-        Variables.listAll.clear()
-        Variables.listAll.addAll(list)
+        AppContext.listAll.clear()
+        AppContext.listAll.addAll(list)
 
         return list
     }

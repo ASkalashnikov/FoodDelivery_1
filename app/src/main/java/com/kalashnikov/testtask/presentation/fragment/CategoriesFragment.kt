@@ -15,7 +15,7 @@ import com.kalashnikov.testtask.R
 import com.kalashnikov.testtask.databinding.FragmentCategoriesBinding
 import com.kalashnikov.testtask.domain.adapter.CategoriesAdapter
 import com.kalashnikov.testtask.domain.adapter.TagsAdapter
-import com.kalashnikov.testtask.domain.management.Variables
+import com.kalashnikov.testtask.domain.management.AppContext
 import com.kalashnikov.testtask.domain.usecase.GetCategories
 import com.kalashnikov.testtask.domain.usecase.RcViewCategories
 import com.kalashnikov.testtask.domain.usecase.RcViewTags
@@ -53,26 +53,26 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun initRcView() {
-        Variables.categoriesAdapter = CategoriesAdapter()
-        Variables.tagsAdapter = TagsAdapter()
+        AppContext.categoriesAdapter = CategoriesAdapter()
+        AppContext.tagsAdapter = TagsAdapter()
 
         binding.apply {
 
             // RcView Categories
             rcViewMenu.layoutManager = GridLayoutManager(activity as Context, 3)
-            rcViewMenu.adapter = Variables.categoriesAdapter
-            Variables.categoriesAdapter.updateAdapter(RcViewCategories.execute())
+            rcViewMenu.adapter = AppContext.categoriesAdapter
+            AppContext.categoriesAdapter.updateAdapter(RcViewCategories.execute())
 
             // RcView Tags
             rcViewCategories.layoutManager =
                 LinearLayoutManager(activity as Context, RecyclerView.HORIZONTAL, false)
-            rcViewCategories.adapter = Variables.tagsAdapter
-            Variables.tagsAdapter.updateAdapter(RcViewTags.execute())
+            rcViewCategories.adapter = AppContext.tagsAdapter
+            AppContext.tagsAdapter.updateAdapter(RcViewTags.execute())
         }
     }
 
     private fun initMvvm() {
-        Variables.mvvm.textCategories.observe(activity as FragmentActivity) { text ->
+        AppContext.mvvm.textCategories.observe(activity as FragmentActivity) { text ->
             binding.textCategories.text = text
         }
     }

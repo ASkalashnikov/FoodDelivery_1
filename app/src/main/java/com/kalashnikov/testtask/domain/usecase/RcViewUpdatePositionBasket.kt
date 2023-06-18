@@ -2,7 +2,7 @@ package com.kalashnikov.testtask.domain.usecase
 
 import android.util.Log
 import com.kalashnikov.testtask.domain.adapter.BasketData
-import com.kalashnikov.testtask.domain.management.Variables
+import com.kalashnikov.testtask.domain.management.AppContext
 
 object RcViewUpdatePositionBasket {
 
@@ -10,11 +10,11 @@ object RcViewUpdatePositionBasket {
     fun execute(i: Int): ArrayList<BasketData> {
         val list = ArrayList<BasketData>()
 
-        val data = BasketData(id = Variables.basketList[i].id,
-        name = Variables.basketList[i].name,
-        price = Variables.basketList[i].price,
-        weight = Variables.basketList[i].weight,
-        image_url = Variables.basketList[i].image_url)
+        val data = BasketData(id = AppContext.basketList[i].id,
+        name = AppContext.basketList[i].name,
+        price = AppContext.basketList[i].price,
+        weight = AppContext.basketList[i].weight,
+        image_url = AppContext.basketList[i].image_url)
 
         Log.d("Test", "(RcViewPosition) Обновили позицию - $i")
 

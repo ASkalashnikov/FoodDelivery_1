@@ -4,7 +4,7 @@ import android.app.Dialog
 import com.kalashnikov.testtask.domain.adapter.*
 import com.kalashnikov.testtask.presentation.mvvm.MainViewModel
 
-object Variables {
+object AppContext {
 
     lateinit var mvvm: MainViewModel
     lateinit var dialog: Dialog

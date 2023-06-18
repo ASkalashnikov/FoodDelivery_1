@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kalashnikov.testtask.databinding.ItemTagsBinding
 import com.kalashnikov.testtask.domain.management.Function
-import com.kalashnikov.testtask.domain.management.Variables
+import com.kalashnikov.testtask.domain.management.AppContext
 import com.kalashnikov.testtask.domain.usecase.RcViewTags
 
 class TagsAdapter : RecyclerView.Adapter<TagsAdapter.TagsHolder>() {
@@ -21,9 +21,9 @@ class TagsAdapter : RecyclerView.Adapter<TagsAdapter.TagsHolder>() {
             textTags.text = data.tags
 
             // Заменить на не активный тег
-            notActiveTags(Variables.oldIdTags)
+            notActiveTags(AppContext.oldIdTags)
             // Заменить на активный тег
-            activeTags(Variables.newIdTags)
+            activeTags(AppContext.newIdTags)
         }
 
         init {
@@ -32,13 +32,13 @@ class TagsAdapter : RecyclerView.Adapter<TagsAdapter.TagsHolder>() {
 
         override fun onClick(v: View) {
             // Записываем новое значения как уже старое
-            Variables.oldIdTags = Variables.newIdTags
+            AppContext.oldIdTags = AppContext.newIdTags
             // Записываем новое значения для активной кнопки тега
-            Variables.newIdTags = adapterPosition
+            AppContext.newIdTags = adapterPosition
             // Сортируем по тегу и обновляем адаптер
             Function.tags(adapterPosition)
             // Обновляем адаптер для активного тега
-            Variables.tagsAdapter.updateAdapter(RcViewTags.execute())
+            AppContext.tagsAdapter.updateAdapter(RcViewTags.execute())
         }
 
         private fun notActiveTags(idTags: Int) {

@@ -5,7 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.kalashnikov.testtask.R
 import com.kalashnikov.testtask.databinding.ActivityMainBinding
-import com.kalashnikov.testtask.domain.management.Variables
+import com.kalashnikov.testtask.domain.management.AppContext
+import com.kalashnikov.testtask.domain.management.Function
 import com.kalashnikov.testtask.presentation.fragment.BasketFragment
 import com.kalashnikov.testtask.presentation.fragment.MainFragment
 import com.kalashnikov.testtask.presentation.mvvm.MainViewModel
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Variables.mvvm = ViewModelProvider(this)[MainViewModel::class.java]
+        AppContext.mvvm = ViewModelProvider(this)[MainViewModel::class.java]
 
         // При открытии app активируется кнопка Главная (Нижняя навигационная панель)
         binding.bNav.selectedItemId = R.id.home

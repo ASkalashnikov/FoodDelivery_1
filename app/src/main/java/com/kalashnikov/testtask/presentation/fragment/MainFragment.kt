@@ -10,13 +10,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kalashnikov.testtask.databinding.FragmentMainBinding
 import com.kalashnikov.testtask.domain.adapter.MainAdapter
-import com.kalashnikov.testtask.domain.management.Variables
+import com.kalashnikov.testtask.domain.management.AppContext
 import com.kalashnikov.testtask.domain.usecase.GetMain
 import com.kalashnikov.testtask.domain.usecase.RcViewMain
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.kalashnikov.testtask.domain.management.Function
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
@@ -32,12 +31,15 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Сбрасываем значение, старое значение для тега (кнопка не активна)
-        Variables.oldIdTags = 0
+        AppContext.oldIdTags = 0
         // Сбрасываем значение, новое значение для тега (кнопка активна)
-        Variables.newIdTags = 0
+        AppContext.newIdTags = 0
 
-        // Показываем сегодняшнею дату
-        Function.getDateCalendar()
+        // Получения текущей даты
+        AppContext.mvvm.getDate()
+        // Получения текущего города
+        AppContext.mvvm.getCity(activity as Context)
+
         initMvvm()
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -58,8 +60,12 @@ class MainFragment : Fragment() {
     }
 
     private fun initMvvm() {
-        Variables.mvvm.textDate.observe(activity as FragmentActivity) { text ->
+        AppContext.mvvm.textDate.observe(activity as FragmentActivity) { text ->
             binding.textDate.text = text
+        }
+
+        AppContext.mvvm.textCity.observe(activity as FragmentActivity) { text ->
+            binding.textCity.text = text
         }
     }
 

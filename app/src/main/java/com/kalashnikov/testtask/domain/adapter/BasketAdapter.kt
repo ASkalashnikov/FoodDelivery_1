@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kalashnikov.testtask.R
 import com.kalashnikov.testtask.databinding.ItemBasketBinding
-import com.kalashnikov.testtask.domain.management.Variables
+import com.kalashnikov.testtask.domain.management.AppContext
 import com.kalashnikov.testtask.domain.usecase.RcViewUpdatePositionBasket
 import com.squareup.picasso.Picasso
 import com.kalashnikov.testtask.domain.management.Function
@@ -26,7 +26,7 @@ class BasketAdapter: RecyclerView.Adapter<BasketAdapter.BasketHolder>() {
             textWeight.text = "· ${data.weight}г"
 
             // Показываем количество штук у одного продукта
-            textCounter.text = Variables.basketCounterList[adapterPosition].toString()
+            textCounter.text = AppContext.basketCounterList[adapterPosition].toString()
         }
 
         init {
@@ -39,27 +39,27 @@ class BasketAdapter: RecyclerView.Adapter<BasketAdapter.BasketHolder>() {
             when (v.id) {
                 R.id.buttonMinus -> {
                     // Отнимает один элемент у данной позиции
-                    Variables.basketCounterList[adapterPosition] -= 1
+                    AppContext.basketCounterList[adapterPosition] -= 1
 
                     // Удаляем элемент в корзине если число штук равна нулю
-                    if (Variables.basketCounterList[adapterPosition] == 0) {
+                    if (AppContext.basketCounterList[adapterPosition] == 0) {
 
-                        Variables.basketList.removeAt(adapterPosition)
-                        Variables.basketCounterList.removeAt(adapterPosition)
-                        Variables.basketAdapter.deletePosition(adapterPosition)
+                        AppContext.basketList.removeAt(adapterPosition)
+                        AppContext.basketCounterList.removeAt(adapterPosition)
+                        AppContext.basketAdapter.deletePosition(adapterPosition)
                     }
                 }
 
                 R.id.buttonPlus -> {
                     // Прибавляем один элемент у данной позиции
-                    Variables.basketCounterList[adapterPosition] += 1
+                    AppContext.basketCounterList[adapterPosition] += 1
                 }
             }
 
             // Если в корзине 0 товара и позиция была удалена (-1), то не обновляем адаптер
-            if (Variables.basketList.size >= 1 && adapterPosition >= 0) {
+            if (AppContext.basketList.size >= 1 && adapterPosition >= 0) {
                 // Обновляем одну позицию
-                Variables.basketAdapter.updatePosition(adapterPosition, RcViewUpdatePositionBasket.execute(adapterPosition))
+                AppContext.basketAdapter.updatePosition(adapterPosition, RcViewUpdatePositionBasket.execute(adapterPosition))
             }
 
             // Пересчитываем сумму товара в корзине

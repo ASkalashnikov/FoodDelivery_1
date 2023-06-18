@@ -8,11 +8,8 @@ import android.graphics.drawable.ColorDrawable
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import com.kalashnikov.testtask.R
-import com.kalashnikov.testtask.domain.management.Variables
-import com.kalashnikov.testtask.presentation.mvvm.MainViewModel
+import com.kalashnikov.testtask.domain.management.AppContext
 import com.squareup.picasso.Picasso
 
 @SuppressLint("StaticFieldLeak")
@@ -24,26 +21,26 @@ object CardDialog {
     @SuppressLint("SetTextI18n")
     fun initDialog(context: Context, position: Int) {
 
-        Variables.dialog = Dialog(context)
-        Variables.dialog.setContentView(R.layout.alert_dialog)
-        Variables.dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        AppContext.dialog = Dialog(context)
+        AppContext.dialog.setContentView(R.layout.alert_dialog)
+        AppContext.dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         // Инициализация кнопок на экране диалога
-        imageFavourites = Variables.dialog.findViewById<ImageView>(R.id.imageFavourites)
-        imageClose = Variables.dialog.findViewById<ImageView>(R.id.imageClose)
-        buttonAdd = Variables.dialog.findViewById<Button>(R.id.buttonAdd)
+        imageFavourites = AppContext.dialog.findViewById<ImageView>(R.id.imageFavourites)
+        imageClose = AppContext.dialog.findViewById<ImageView>(R.id.imageClose)
+        buttonAdd = AppContext.dialog.findViewById<Button>(R.id.buttonAdd)
 
-        val imageUrl = Variables.dialog.findViewById<ImageView>(R.id.imageUrl)
-        val textName = Variables.dialog.findViewById<TextView>(R.id.textName)
-        val textPrice = Variables.dialog.findViewById<TextView>(R.id.textPrice)
-        val textWeight = Variables.dialog.findViewById<TextView>(R.id.textWeight)
-        val textDescription = Variables.dialog.findViewById<TextView>(R.id.textDescription)
+        val imageUrl = AppContext.dialog.findViewById<ImageView>(R.id.imageUrl)
+        val textName = AppContext.dialog.findViewById<TextView>(R.id.textName)
+        val textPrice = AppContext.dialog.findViewById<TextView>(R.id.textPrice)
+        val textWeight = AppContext.dialog.findViewById<TextView>(R.id.textWeight)
+        val textDescription = AppContext.dialog.findViewById<TextView>(R.id.textDescription)
 
-        Picasso.get().load(Variables.listAll[position].image_url).into(imageUrl)
-        textName.text = Variables.listAll[position].name
-        textPrice.text = "${Variables.listAll[position].price} ₽ "
-        textWeight.text = "· ${Variables.listAll[position].weight}г"
-        textDescription.text = Variables.listAll[position].description
+        Picasso.get().load(AppContext.listAll[position].image_url).into(imageUrl)
+        textName.text = AppContext.listAll[position].name
+        textPrice.text = "${AppContext.listAll[position].price} ₽ "
+        textWeight.text = "· ${AppContext.listAll[position].weight}г"
+        textDescription.text = AppContext.listAll[position].description
     }
 
 }

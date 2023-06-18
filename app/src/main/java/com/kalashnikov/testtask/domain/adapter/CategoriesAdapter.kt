@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kalashnikov.testtask.databinding.ItemCategoriesBinding
-import com.kalashnikov.testtask.domain.management.Variables
+import com.kalashnikov.testtask.domain.management.AppContext
 import com.kalashnikov.testtask.presentation.dialog.CardDialog
 import com.squareup.picasso.Picasso
 
@@ -31,7 +31,7 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolde
             CardDialog.initDialog(v.context, adapterPosition)
 
             CardDialog.imageFavourites.setOnClickListener { }
-            CardDialog.imageClose.setOnClickListener { Variables.dialog.cancel() }
+            CardDialog.imageClose.setOnClickListener { AppContext.dialog.cancel() }
 
             // "buttonAdd" - Кнопка активна
             var activeButton = true
@@ -42,9 +42,9 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolde
                 // Проверяем корзину, был он добавлен раньше ?
                 // false - не добавлен
                 // true - добавлен
-                for (i in Variables.basketList.indices) {
+                for (i in AppContext.basketList.indices) {
 
-                    if (Variables.basketList[i].id == Variables.listAll[adapterPosition].id) {
+                    if (AppContext.basketList[i].id == AppContext.listAll[adapterPosition].id) {
                         product = true
                     }
                 }
@@ -52,19 +52,19 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolde
                 // Добавляем продукт в корзину если еще не добавлен
                 if (activeButton && !product) {
                     val data = BasketData(
-                        Variables.listAll[adapterPosition].id,
-                        Variables.listAll[adapterPosition].name,
-                        Variables.listAll[adapterPosition].price,
-                        Variables.listAll[adapterPosition].weight,
-                        Variables.listAll[adapterPosition].image_url
+                        AppContext.listAll[adapterPosition].id,
+                        AppContext.listAll[adapterPosition].name,
+                        AppContext.listAll[adapterPosition].price,
+                        AppContext.listAll[adapterPosition].weight,
+                        AppContext.listAll[adapterPosition].image_url
                     )
-                    Variables.basketList.add(data)
+                    AppContext.basketList.add(data)
 
                     // "buttonAdd" - Кнопка не активна
                     activeButton = false
                 }
             }
-            Variables.dialog.show()
+            AppContext.dialog.show()
         }
     }
 

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.kalashnikov.testtask.R
 import com.kalashnikov.testtask.databinding.ItemMainBinding
-import com.kalashnikov.testtask.domain.management.Variables
+import com.kalashnikov.testtask.domain.management.AppContext
 import com.kalashnikov.testtask.domain.usecase.GetMain
 import com.kalashnikov.testtask.presentation.fragment.CategoriesFragment
 import com.squareup.picasso.Picasso
@@ -30,7 +30,7 @@ class MainAdapter: RecyclerView.Adapter<MainAdapter.MainHolder>() {
 
         override fun onClick(v: View) {
             // Записываем название категории
-            Variables.mvvm.loadTextCategories(GetMain.model.сategories[adapterPosition].name)
+            AppContext.mvvm.loadTextCategories(GetMain.model.сategories[adapterPosition].name)
 
             // Открываем фрагмент
             (v.context as AppCompatActivity).supportFragmentManager.beginTransaction()

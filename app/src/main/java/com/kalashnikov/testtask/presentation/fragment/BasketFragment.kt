@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kalashnikov.testtask.databinding.FragmentBasketBinding
 import com.kalashnikov.testtask.domain.adapter.BasketAdapter
 import com.kalashnikov.testtask.domain.management.Function
-import com.kalashnikov.testtask.domain.management.Variables
+import com.kalashnikov.testtask.domain.management.AppContext
 import java.text.NumberFormat
 
 class BasketFragment : Fragment() {
@@ -45,28 +45,32 @@ class BasketFragment : Fragment() {
     }
 
     private fun initRcView() {
-        Variables.basketAdapter = BasketAdapter()
+        AppContext.basketAdapter = BasketAdapter()
         binding.apply {
             rcView.layoutManager = LinearLayoutManager(activity as Context)
-            rcView.adapter = Variables.basketAdapter
-            Variables.basketAdapter.updateAdapter(Variables.basketList)
+            rcView.adapter = AppContext.basketAdapter
+            AppContext.basketAdapter.updateAdapter(AppContext.basketList)
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initMvvm() {
+    private fun initMvvm() = with(binding) {
         val nFormat = NumberFormat.getInstance()
 
-        Variables.mvvm.priceAll.observe(activity as FragmentActivity) { text ->
+        AppContext.mvvm.priceAll.observe(activity as FragmentActivity) { text ->
             if (text == 0) {
-                binding.buttonAdd.text = "Корзина пуста"
+                buttonAdd.text = "Корзина пуста"
             } else {
-                binding.buttonAdd.text = "Оплатить ${nFormat.format(text)} ₽"
+                buttonAdd.text = "Оплатить ${nFormat.format(text)} ₽"
             }
         }
 
-        Variables.mvvm.textDate.observe(activity as FragmentActivity) { text ->
-            binding.textDate.text = text
+        AppContext.mvvm.textDate.observe(activity as FragmentActivity) { text ->
+            textDate.text = text
+        }
+
+        AppContext.mvvm.textCity.observe(activity as FragmentActivity) { text ->
+            textCity.text = text
         }
     }
 
