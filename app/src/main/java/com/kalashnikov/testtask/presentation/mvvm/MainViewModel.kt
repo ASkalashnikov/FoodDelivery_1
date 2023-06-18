@@ -70,7 +70,6 @@ class MainViewModel : ViewModel() {
             ActivityCompat.requestPermissions(context as Activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
             return
         }
-
         // Надо включить данные о место положения
         task.addOnSuccessListener {
             if (it != null) {
