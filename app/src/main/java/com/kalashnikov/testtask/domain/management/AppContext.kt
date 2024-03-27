@@ -12,6 +12,7 @@ object AppContext {
     // Корзина
     var basket = ArrayList<BasketData>()
 
+
     // Записываем город (Из за асинхронно потоков)
     var cityName = ""
 }
