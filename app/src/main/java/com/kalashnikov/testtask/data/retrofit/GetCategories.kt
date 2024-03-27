@@ -1,22 +1,20 @@
-package com.kalashnikov.testtask.domain.usecase
+package com.kalashnikov.testtask.data.retrofit
 
-import com.kalashnikov.testtask.data.retrofit.MainApi
-import com.kalashnikov.testtask.data.retrofit.MainApiData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object GetMain {
+object GetCategories {
 
-    lateinit var model: MainApiData
+    lateinit var model: CategoriesApiData
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://run.mocky.io/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     suspend fun execute() = withContext(Dispatchers.IO) {
-        val api = retrofit.create(MainApi::class.java)
-        model = api.getMainApi()
+        val api = retrofit.create(CategoriesApi::class.java)
+        model = api.getCategoriesApi()
     }
 }

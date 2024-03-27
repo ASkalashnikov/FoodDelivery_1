@@ -1,85 +1,44 @@
 package com.kalashnikov.testtask.presentation.mvvm
 
-import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
-import android.location.Geocoder
-import androidx.core.app.ActivityCompat
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import java.util.*
+import com.kalashnikov.testtask.domain.adapter.MainData
+import com.kalashnikov.testtask.domain.rcviewitems.RcViewMain
+import com.kalashnikov.testtask.domain.usecase.GetCityUseCase
+import com.kalashnikov.testtask.domain.usecase.GetDateUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private val getCityUseCase = GetCityUseCase()
+    private val getDateUseCase = GetDateUseCase()
+    private val rcViewMain = RcViewMain()
 
-    val priceAll = MutableLiveData<Int>()
-    val textCategories = MutableLiveData<String>()
     val textDate = MutableLiveData<String>()
     val textCity = MutableLiveData<String>()
+    val rcViewMainVM = MutableLiveData<ArrayList<MainData>>()
 
-    // Кнопка "Оплатить"
-    // default = 0
     init {
-        priceAll.value = 0
-    }
+        // Загрузка данных в RcView
+        rcViewMainVM.value = rcViewMain.init()
 
-    // Кнопка "Оплатить"
-    fun savePriceAll(price: Int) {
-        priceAll.value = price
-    }
+        // Получения текущей даты
+        textDate.value = getDateUseCase.execute()
 
-    // Показываем текст "Название категории"
-    fun loadTextCategories(text: String) {
-        textCategories.value = text
-    }
+        // Делаем запрос о получения текущего города
+        getCityUseCase.execute(application)
 
-    // Получения текущей даты
-    fun getDate() {
-        val cal = Calendar.getInstance()
-        val listCalendar = listOf(
-            "Января",
-            "Февраля",
-            "Марта",
-            "Апреля",
-            "Мая",
-            "Июня",
-            "Июля",
-            "Августа",
-            "Сентября",
-            "Октября",
-            "Ноября",
-            "Декабря"
-        )
-        val str = "${cal.get(Calendar.DAY_OF_MONTH)} ${listCalendar[cal.get(Calendar.MONTH)]} ${cal.get(Calendar.YEAR)}"
-        textDate.value = str
-    }
-
-    // Получения текущего города
-    fun getCity(context: Context) {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-
-        val task = fusedLocationProviderClient.lastLocation
-
-        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(context as Activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
-            return
-        }
-        // Надо включить данные о место положения
-        task.addOnSuccessListener {
-            if (it != null) {
-
-                val geoCoder = Geocoder(context, Locale.getDefault())
-                val address = geoCoder.getFromLocation(it.latitude, it.longitude,1)
-                val cityName = address!![0].locality
-
-                textCity.value = cityName
+        // Получения текущего города
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                TimeUnit.MILLISECONDS.sleep(100)
             }
+            textCity.value = getCityUseCase.city()
         }
     }
 }

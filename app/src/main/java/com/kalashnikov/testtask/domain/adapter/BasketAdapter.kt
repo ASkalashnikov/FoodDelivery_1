@@ -2,69 +2,29 @@ package com.kalashnikov.testtask.domain.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.kalashnikov.testtask.R
 import com.kalashnikov.testtask.databinding.ItemBasketBinding
-import com.kalashnikov.testtask.domain.management.AppContext
-import com.kalashnikov.testtask.domain.usecase.RcViewUpdatePositionBasket
-import com.squareup.picasso.Picasso
-import com.kalashnikov.testtask.domain.management.Function
 
-class BasketAdapter: RecyclerView.Adapter<BasketAdapter.BasketHolder>() {
+class BasketAdapter(private val interfaceBasket: InterfaceBasket): RecyclerView.Adapter<BasketAdapter.BasketHolder>(){
     private val list = ArrayList<BasketData>()
 
-    class BasketHolder(private val binding: ItemBasketBinding) :
-        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    class BasketHolder(private val binding: ItemBasketBinding) : RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(data: BasketData) = with(binding) {
-            Picasso.get().load(data.image_url).into(imageBasket)
+        fun bind(data: BasketData, interfaceBasket: InterfaceBasket) = with(binding) {
             textName.text = data.name
             textPrice.text = "${data.price} ₽ "
             textWeight.text = "· ${data.weight}г"
+            imageBasket.setImageResource(data.image)
+            textCounter.text = data.quantity.toString()
 
-            // Показываем количество штук у одного продукта
-            textCounter.text = AppContext.basketCounterList[adapterPosition].toString()
-        }
-
-        init {
-            binding.root.setOnClickListener(this)
-            binding.buttonMinus.setOnClickListener(this)
-            binding.buttonPlus.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View) {
-            when (v.id) {
-                R.id.buttonMinus -> {
-                    // Отнимает один элемент у данной позиции
-                    AppContext.basketCounterList[adapterPosition] -= 1
-
-                    // Удаляем элемент в корзине если число штук равна нулю
-                    if (AppContext.basketCounterList[adapterPosition] == 0) {
-
-                        AppContext.basketList.removeAt(adapterPosition)
-                        AppContext.basketCounterList.removeAt(adapterPosition)
-                        AppContext.basketAdapter.deletePosition(adapterPosition)
-                    }
-                }
-
-                R.id.buttonPlus -> {
-                    // Прибавляем один элемент у данной позиции
-                    AppContext.basketCounterList[adapterPosition] += 1
-                }
+            buttonMinus.setOnClickListener {
+                interfaceBasket.onClickBasketMinus(adapterPosition)
             }
-
-            // Если в корзине 0 товара и позиция была удалена (-1), то не обновляем адаптер
-            if (AppContext.basketList.size >= 1 && adapterPosition >= 0) {
-                // Обновляем одну позицию
-                AppContext.basketAdapter.updatePosition(adapterPosition, RcViewUpdatePositionBasket.execute(adapterPosition))
+            buttonPlus.setOnClickListener {
+                interfaceBasket.onClickBasketPlus(adapterPosition)
             }
-
-            // Пересчитываем сумму товара в корзине
-            // и отправляем окончательную сумму на кнопку "Оплатить"
-            Function.reckonPrice()
         }
     }
 
@@ -79,7 +39,7 @@ class BasketAdapter: RecyclerView.Adapter<BasketAdapter.BasketHolder>() {
     }
 
     override fun onBindViewHolder(holder: BasketHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], interfaceBasket)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -89,14 +49,19 @@ class BasketAdapter: RecyclerView.Adapter<BasketAdapter.BasketHolder>() {
         notifyDataSetChanged()
     }
 
-    fun deletePosition(i: Int) {
-        list.removeAt(i)
-        notifyItemRemoved(i)
+    fun updatePosition(adapterPosition: Int, listItem: List<BasketData>) {
+        list.removeAt(adapterPosition)
+        list.add(adapterPosition, listItem[0])
+        notifyItemChanged(adapterPosition)
     }
 
-    fun updatePosition(i: Int, listItem: List<BasketData>) {
-        list.removeAt(i)
-        list.add(i, listItem[0])
-        notifyItemChanged(i)
+    fun deletePosition(adapterPosition: Int) {
+        list.removeAt(adapterPosition)
+        notifyItemRemoved(adapterPosition)
+    }
+
+    interface InterfaceBasket {
+        fun onClickBasketMinus(adapterPosition: Int)
+        fun onClickBasketPlus(adapterPosition: Int)
     }
 }

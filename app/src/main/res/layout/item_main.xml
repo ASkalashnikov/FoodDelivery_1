@@ -13,20 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/menu_main"
+        app:srcCompat="@drawable/menu_cap_1"
         tools:ignore="ContentDescription" />
-
-    <TextView
-        android:id="@+id/textName"
-        android:layout_width="191dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:text="Пекарни и кондитерские"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/imageMain"
-        app:layout_constraintTop_toTopOf="@+id/imageMain" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

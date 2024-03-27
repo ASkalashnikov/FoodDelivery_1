@@ -2,69 +2,22 @@ package com.kalashnikov.testtask.domain.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kalashnikov.testtask.databinding.ItemCategoriesBinding
-import com.kalashnikov.testtask.domain.management.AppContext
-import com.kalashnikov.testtask.presentation.dialog.CardDialog
-import com.squareup.picasso.Picasso
 
-class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>() {
-    private val list = ArrayList<CategoriesData>()
+class CategoriesAdapter(private val interfaceCategories: InterfaceCategories) : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>() {
+    private val listData = ArrayList<CategoriesData>()
 
-    class CategoriesHolder(private val binding: ItemCategoriesBinding) :
-        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    class CategoriesHolder(private val binding: ItemCategoriesBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: CategoriesData) = with(binding) {
+        fun bind(data: CategoriesData, interfaceCategories: InterfaceCategories) = with(binding) {
             textCategories.text = data.name
-            Picasso.get().load(data.image_url).into(imageCategories)
-        }
+            imageCategories.setImageResource(data.image)
 
-        init {
-            binding.root.setOnClickListener(this)
-        }
-
-        @SuppressLint("SetTextI18n")
-        override fun onClick(v: View) {
-            // Показываем экран диалога
-            CardDialog.initDialog(v.context, adapterPosition)
-
-            CardDialog.imageFavourites.setOnClickListener { }
-            CardDialog.imageClose.setOnClickListener { AppContext.dialog.cancel() }
-
-            // "buttonAdd" - Кнопка активна
-            var activeButton = true
-
-            CardDialog.buttonAdd.setOnClickListener {
-                var product = false
-
-                // Проверяем корзину, был он добавлен раньше ?
-                // false - не добавлен
-                // true - добавлен
-                for (i in AppContext.basketList.indices) {
-
-                    if (AppContext.basketList[i].id == AppContext.listAll[adapterPosition].id) {
-                        product = true
-                    }
-                }
-
-                // Добавляем продукт в корзину если еще не добавлен
-                if (activeButton && !product) {
-                    val data = BasketData(
-                        AppContext.listAll[adapterPosition].id,
-                        AppContext.listAll[adapterPosition].name,
-                        AppContext.listAll[adapterPosition].price,
-                        AppContext.listAll[adapterPosition].weight,
-                        AppContext.listAll[adapterPosition].image_url
-                    )
-                    AppContext.basketList.add(data)
-
-                    // "buttonAdd" - Кнопка не активна
-                    activeButton = false
-                }
+            itemView.setOnClickListener {
+                interfaceCategories.onClickCategories(data)
             }
-            AppContext.dialog.show()
         }
     }
 
@@ -75,17 +28,21 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesHolde
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return listData.size
     }
 
     override fun onBindViewHolder(holder: CategoriesHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(listData[position], interfaceCategories)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateAdapter(listItem: List<CategoriesData>) {
-        list.clear()
-        list.addAll(listItem)
+    fun updateAdapter(list: List<CategoriesData>) {
+        listData.clear()
+        listData.addAll(list)
         notifyDataSetChanged()
+    }
+
+    interface InterfaceCategories {
+        fun onClickCategories(data: CategoriesData)
     }
 }

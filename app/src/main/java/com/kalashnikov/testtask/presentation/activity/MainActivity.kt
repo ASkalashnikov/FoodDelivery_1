@@ -2,14 +2,10 @@ package com.kalashnikov.testtask.presentation.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.kalashnikov.testtask.R
 import com.kalashnikov.testtask.databinding.ActivityMainBinding
-import com.kalashnikov.testtask.domain.management.AppContext
-import com.kalashnikov.testtask.domain.management.Function
 import com.kalashnikov.testtask.presentation.fragment.BasketFragment
 import com.kalashnikov.testtask.presentation.fragment.MainFragment
-import com.kalashnikov.testtask.presentation.mvvm.MainViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -19,13 +15,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        AppContext.mvvm = ViewModelProvider(this)[MainViewModel::class.java]
-
-        // При открытии app активируется кнопка Главная (Нижняя навигационная панель)
+        // При открытии app выделяется кнопка "Главная" - Нижняя навигационная панель
         binding.bNav.selectedItemId = R.id.home
 
-        // Основные категории
-        // При открытии app первым открывается экран Главная (Fragment)
+        // При открытии app открывается MainFragment
         supportFragmentManager.beginTransaction().replace(R.id.fLayout, MainFragment.newInstance())
             .commit()
 

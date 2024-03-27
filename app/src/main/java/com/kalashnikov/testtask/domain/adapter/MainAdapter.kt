@@ -2,40 +2,26 @@ package com.kalashnikov.testtask.domain.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.kalashnikov.testtask.R
 import com.kalashnikov.testtask.databinding.ItemMainBinding
 import com.kalashnikov.testtask.domain.management.AppContext
-import com.kalashnikov.testtask.domain.usecase.GetMain
-import com.kalashnikov.testtask.presentation.fragment.CategoriesFragment
-import com.squareup.picasso.Picasso
 
-class MainAdapter: RecyclerView.Adapter<MainAdapter.MainHolder>() {
+class MainAdapter(private val interfaceMain: InterfaceMain): RecyclerView.Adapter<MainAdapter.MainHolder>() {
     private val list = ArrayList<MainData>()
 
-    class MainHolder(private val binding: ItemMainBinding) :
-        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    class MainHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: MainData) = with(binding) {
-            textName.text = data.name
-            Picasso.get().load(data.image_url).into(imageMain)
-        }
+        fun bind(mainData: MainData, interfaceMain: InterfaceMain) = with(binding) {
+            imageMain.setImageResource(mainData.image)
+            //Picasso.get().load(data.image_url).into(imageBasket)
 
-        init {
-            binding.root.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View) {
-            // Записываем название категории
-            AppContext.mvvm.loadTextCategories(GetMain.model.сategories[adapterPosition].name)
-
-            // Открываем фрагмент
-            (v.context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.fLayout, CategoriesFragment.newInstance())
-                .commit()
+            itemView.setOnClickListener {
+                // Сохраняем позицию
+                AppContext.positionRcViewMain = adapterPosition
+                // Для реализации onClick во фрагменте
+                interfaceMain.onClickMain()
+            }
         }
     }
 
@@ -50,13 +36,16 @@ class MainAdapter: RecyclerView.Adapter<MainAdapter.MainHolder>() {
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], interfaceMain)
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateAdapter(listItem: List<MainData>) {
-        list.clear()
         list.addAll(listItem)
         notifyDataSetChanged()
+    }
+
+    interface InterfaceMain {
+        fun onClickMain()
     }
 }

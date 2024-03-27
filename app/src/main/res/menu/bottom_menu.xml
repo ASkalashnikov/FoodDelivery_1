@@ -24,5 +24,4 @@
         android:icon="@drawable/profile"
         android:title="@string/account"
         android:orderInCategory="4"/>
-
 </menu>

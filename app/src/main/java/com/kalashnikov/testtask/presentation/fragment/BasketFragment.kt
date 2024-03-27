@@ -8,15 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kalashnikov.testtask.databinding.FragmentBasketBinding
 import com.kalashnikov.testtask.domain.adapter.BasketAdapter
-import com.kalashnikov.testtask.domain.management.Function
-import com.kalashnikov.testtask.domain.management.AppContext
+import com.kalashnikov.testtask.presentation.mvvm.BasketViewModel
 import java.text.NumberFormat
 
-class BasketFragment : Fragment() {
+class BasketFragment : Fragment(), BasketAdapter.InterfaceBasket {
     private lateinit var binding: FragmentBasketBinding
+    private val mvvm: BasketViewModel by activityViewModels()
+    private val adapter = BasketAdapter(this)
+    private var position = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,50 +31,69 @@ class BasketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Кнопка Оплатить
-        binding.buttonAdd.setOnClickListener { }
-
-        // Считаем сколько элементов в корзине и ставим им 1 штуку
-        Function.basketCounter()
-
-        // Пересчитываем сумму товара в корзине
-        // и отправляем окончательную сумму на кнопку "Оплатить"
-        Function.reckonPrice()
+        initView()
 
         // Выводим данные на экран
+        mvvm.getBasket()
         initRcView()
-        initMvvm()
+        mvvm.showPrice()
+        initPrice()
+    }
+
+    private fun initView() {
+        mvvm.textDate.observe(viewLifecycleOwner) { text ->
+            binding.textDate.text = text
+        }
+
+        mvvm.textCity.observe(viewLifecycleOwner) { text ->
+            binding.textCity.text = text
+        }
     }
 
     private fun initRcView() {
-        AppContext.basketAdapter = BasketAdapter()
         binding.apply {
             rcView.layoutManager = LinearLayoutManager(activity as Context)
-            rcView.adapter = AppContext.basketAdapter
-            AppContext.basketAdapter.updateAdapter(AppContext.basketList)
+            rcView.adapter = adapter
+        }
+
+        mvvm.rcViewBasketVM.observe(viewLifecycleOwner) {
+            // Обновляем весь адаптер
+            if (position == -1) {
+                adapter.updateAdapter(it)
+            } else {
+                // Обновляем или удаляем позицию
+                if (it.isNotEmpty()) {
+                    adapter.updatePosition(position, it)
+                } else {
+                    adapter.deletePosition(position)
+                }
+            }
+            // Обновляем цену на кнопке "Оплатить"
+            mvvm.showPrice()
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initMvvm() = with(binding) {
+    private fun initPrice() = with(binding) {
         val nFormat = NumberFormat.getInstance()
 
-        AppContext.mvvm.priceAll.observe(activity as FragmentActivity) { text ->
-            if (text == 0) {
+        mvvm.price.observe(activity as FragmentActivity) { price ->
+            if (price == 0) {
                 buttonAdd.text = "Корзина пуста"
             } else {
-                buttonAdd.text = "Оплатить ${nFormat.format(text)} ₽"
+                buttonAdd.text = "Оплатить ${nFormat.format(price)} ₽"
             }
         }
+    }
 
-        AppContext.mvvm.textDate.observe(activity as FragmentActivity) { text ->
-            textDate.text = text
-        }
+    override fun onClickBasketMinus(adapterPosition: Int) {
+        position = adapterPosition
+        mvvm.updatePositionBasket(adapterPosition, "-")
+    }
 
-        AppContext.mvvm.textCity.observe(activity as FragmentActivity) { text ->
-            textCity.text = text
-        }
+    override fun onClickBasketPlus(adapterPosition: Int) {
+        position = adapterPosition
+        mvvm.updatePositionBasket(adapterPosition, "+")
     }
 
     companion object {
