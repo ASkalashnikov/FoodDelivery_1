@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kalashnikov.testtask.databinding.FragmentBasketBinding
 import com.kalashnikov.testtask.domain.adapter.BasketAdapter
 import com.kalashnikov.testtask.presentation.mvvm.BasketViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
 
+@AndroidEntryPoint
 class BasketFragment : Fragment(), BasketAdapter.InterfaceBasket {
     private lateinit var binding: FragmentBasketBinding
     private val mvvm: BasketViewModel by activityViewModels()

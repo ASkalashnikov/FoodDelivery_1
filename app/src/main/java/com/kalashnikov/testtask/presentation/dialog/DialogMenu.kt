@@ -13,9 +13,10 @@ import com.kalashnikov.testtask.R
 import com.kalashnikov.testtask.domain.adapter.BasketData
 import com.kalashnikov.testtask.domain.adapter.CategoriesData
 import com.kalashnikov.testtask.domain.management.AppContext
+import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-class DialogMenu {
+class DialogMenu @Inject constructor(){
     private lateinit var dialog: Dialog
     private lateinit var imageFavourites: ImageView
     private lateinit var imageClose: ImageView

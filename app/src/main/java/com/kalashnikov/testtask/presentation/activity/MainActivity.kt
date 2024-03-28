@@ -6,7 +6,9 @@ import com.kalashnikov.testtask.R
 import com.kalashnikov.testtask.databinding.ActivityMainBinding
 import com.kalashnikov.testtask.presentation.fragment.BasketFragment
 import com.kalashnikov.testtask.presentation.fragment.MainFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

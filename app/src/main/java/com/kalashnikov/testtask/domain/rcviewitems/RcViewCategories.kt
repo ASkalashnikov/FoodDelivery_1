@@ -2,8 +2,9 @@ package com.kalashnikov.testtask.domain.rcviewitems
 
 import com.kalashnikov.testtask.data.repository.AppData
 import com.kalashnikov.testtask.domain.adapter.CategoriesData
+import javax.inject.Inject
 
-class RcViewCategories {
+class RcViewCategories @Inject constructor() {
 
     fun init(adapterPosition: Int): ArrayList<CategoriesData> {
         val list = ArrayList<CategoriesData>()

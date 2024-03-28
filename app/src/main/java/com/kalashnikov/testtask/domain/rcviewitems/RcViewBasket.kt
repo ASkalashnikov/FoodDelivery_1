@@ -2,8 +2,9 @@ package com.kalashnikov.testtask.domain.rcviewitems
 
 import com.kalashnikov.testtask.domain.adapter.BasketData
 import com.kalashnikov.testtask.domain.management.AppContext
+import javax.inject.Inject
 
-class RcViewBasket {
+class RcViewBasket @Inject constructor() {
 
     fun init(): ArrayList<BasketData> {
         val list = ArrayList<BasketData>()

@@ -12,7 +12,9 @@ import com.kalashnikov.testtask.R
 import com.kalashnikov.testtask.databinding.FragmentMainBinding
 import com.kalashnikov.testtask.domain.adapter.MainAdapter
 import com.kalashnikov.testtask.presentation.mvvm.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment(), MainAdapter.InterfaceMain {
     private lateinit var binding: FragmentMainBinding
     private val mvvm: MainViewModel by activityViewModels()

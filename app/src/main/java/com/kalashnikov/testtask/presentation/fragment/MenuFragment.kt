@@ -17,13 +17,17 @@ import com.kalashnikov.testtask.domain.adapter.CategoriesData
 import com.kalashnikov.testtask.domain.adapter.TagsAdapter
 import com.kalashnikov.testtask.presentation.dialog.DialogMenu
 import com.kalashnikov.testtask.presentation.mvvm.MenuViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MenuFragment : Fragment(), TagsAdapter.InterfaceTags, CategoriesAdapter.InterfaceCategories {
     private lateinit var binding: FragmentMenuBinding
     private val mvvm: MenuViewModel by activityViewModels()
     private val adapterTags = TagsAdapter(this)
     private val adapterCategories = CategoriesAdapter(this)
-    private val dialog = DialogMenu()
+    @Inject
+    lateinit var dialog: DialogMenu
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

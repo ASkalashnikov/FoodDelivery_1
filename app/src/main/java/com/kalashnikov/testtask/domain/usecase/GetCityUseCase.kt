@@ -9,8 +9,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class GetCityUseCase {
+class GetCityUseCase @Inject constructor() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     @SuppressLint("MissingPermission")
