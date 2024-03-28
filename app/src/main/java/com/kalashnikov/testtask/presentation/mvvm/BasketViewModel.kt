@@ -1,15 +1,20 @@
 package com.kalashnikov.testtask.presentation.mvvm
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.kalashnikov.testtask.domain.adapter.BasketData
 import com.kalashnikov.testtask.domain.rcviewitems.RcViewBasket
 import com.kalashnikov.testtask.domain.usecase.GetCityUseCase
 import com.kalashnikov.testtask.domain.usecase.GetDateUseCase
 import com.kalashnikov.testtask.domain.usecase.GetPriceUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class BasketViewModel: ViewModel() {
+class BasketViewModel(application: Application): AndroidViewModel(application) {
 
+    private val context = application
     private val getCityUseCase = GetCityUseCase()
     private val getDateUseCase = GetDateUseCase()
     private val rcViewBasket = RcViewBasket()
@@ -20,12 +25,16 @@ class BasketViewModel: ViewModel() {
     val rcViewBasketVM = MutableLiveData<ArrayList<BasketData>>()
     val price = MutableLiveData<Int>()
 
-    init {
+    fun getDate() {
         // Получения текущей даты
         textDate.value = getDateUseCase.execute()
+    }
 
+    fun getCity() {
         // Получения текущего города
-        textCity.value = getCityUseCase.city()
+        CoroutineScope(Dispatchers.Main).launch {
+            textCity.value = getCityUseCase.execute(context)
+        }
     }
 
     // Показываем корзину

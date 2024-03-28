@@ -28,7 +28,13 @@ class MainFragment : Fragment(), MainAdapter.InterfaceMain {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Загрузка данных
+        mvvm.getCity()
+        mvvm.getDate()
         initView()
+
+        mvvm.getMain()
         initRcView()
     }
 

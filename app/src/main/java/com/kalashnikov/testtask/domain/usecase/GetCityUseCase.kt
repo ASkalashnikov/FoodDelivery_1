@@ -5,28 +5,31 @@ import android.content.Context
 import android.location.Geocoder
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.kalashnikov.testtask.domain.management.AppContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class GetCityUseCase {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     @SuppressLint("MissingPermission")
-    fun execute(context: Context) {
+    suspend fun execute(context: Context): String {
+        var city = ""
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 
         // Надо включить данные о место положения
         fusedLocationProviderClient.lastLocation
             .addOnSuccessListener {
-            if (it != null) {
-                val geoCoder = Geocoder(context, Locale.getDefault())
-                val address = geoCoder.getFromLocation(it.latitude, it.longitude, 1)
-                AppContext.cityName = address!![0].locality
+                if (it != null) {
+                    val geoCoder = Geocoder(context, Locale.getDefault())
+                    val address = geoCoder.getFromLocation(it.latitude, it.longitude, 1)
+                    city = address!![0].locality
+                }
             }
+        withContext(Dispatchers.IO) {
+            TimeUnit.MILLISECONDS.sleep(200)
         }
-    }
-
-    fun city(): String {
-        return AppContext.cityName
+        return city
     }
 }

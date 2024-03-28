@@ -31,9 +31,12 @@ class BasketFragment : Fragment(), BasketAdapter.InterfaceBasket {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Загрузка данных
+        mvvm.getCity()
+        mvvm.getDate()
         initView()
 
-        // Выводим данные на экран
         mvvm.getBasket()
         initRcView()
         mvvm.showPrice()

@@ -33,8 +33,6 @@ class MenuFragment : Fragment(), TagsAdapter.InterfaceTags, CategoriesAdapter.In
         return binding.root
     }
 
-    // extension
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
