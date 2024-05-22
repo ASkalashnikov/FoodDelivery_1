@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.kalashnikov.testtask'
+    namespace 'com.kalashnikov.tt_fooddelivery_1'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.kalashnikov.testtask"
+        applicationId "com.kalashnikov.tt_fooddelivery_1"
         minSdk 26
         targetSdk 34
         versionCode 1
