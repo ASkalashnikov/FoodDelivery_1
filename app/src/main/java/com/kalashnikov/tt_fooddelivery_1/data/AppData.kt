@@ -39,7 +39,7 @@ object AppData {
         listOf("Все меню")
     )
 
-    // Данные для категории и диалога
+    // Данные для категории и диалога dfgfhfgh
     val id = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8)
 
     val image_menu = listOf(
