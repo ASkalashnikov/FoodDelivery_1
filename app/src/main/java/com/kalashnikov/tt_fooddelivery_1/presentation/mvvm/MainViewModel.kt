@@ -5,9 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kalashnikov.tt_fooddelivery_1.domain.model.MainModel
-import com.kalashnikov.tt_fooddelivery_1.domain.rcviewitems.RcViewMain
 import com.kalashnikov.tt_fooddelivery_1.domain.usecase.GetCityUseCase
 import com.kalashnikov.tt_fooddelivery_1.domain.usecase.GetDateUseCase
+import com.kalashnikov.tt_fooddelivery_1.domain.usecase.GetItemMainUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ class MainViewModel @Inject constructor(
     private val context: Application,
     private val getCityUseCase: GetCityUseCase,
     private val getDateUseCase: GetDateUseCase,
-    private val rcViewMain: RcViewMain
+    private val getItemMainUseCase: GetItemMainUseCase
 ) : AndroidViewModel(context) {
 
     private val _textDate = MutableLiveData<String>()
@@ -45,6 +45,6 @@ class MainViewModel @Inject constructor(
 
     fun getMain() {
         // Загрузка данных в RcView
-        _rcViewMainVM.value = rcViewMain.init()
+        _rcViewMainVM.value = getItemMainUseCase.init()
     }
 }

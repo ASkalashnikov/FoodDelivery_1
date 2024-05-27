@@ -5,9 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kalashnikov.tt_fooddelivery_1.domain.model.BasketModel
-import com.kalashnikov.tt_fooddelivery_1.domain.rcviewitems.RcViewBasket
 import com.kalashnikov.tt_fooddelivery_1.domain.usecase.GetCityUseCase
 import com.kalashnikov.tt_fooddelivery_1.domain.usecase.GetDateUseCase
+import com.kalashnikov.tt_fooddelivery_1.domain.usecase.GetItemBasketUseCase
 import com.kalashnikov.tt_fooddelivery_1.domain.usecase.GetPriceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +20,7 @@ class BasketViewModel @Inject constructor(
     private val context: Application,
     private val getCityUseCase: GetCityUseCase,
     private val getDateUseCase: GetDateUseCase,
-    private val rcViewBasket: RcViewBasket,
+    private val getItemBasketUseCase: GetItemBasketUseCase,
     private val getPriceUseCase: GetPriceUseCase
 ): AndroidViewModel(context) {
 
@@ -50,12 +50,12 @@ class BasketViewModel @Inject constructor(
 
     // Показываем корзину
     fun getBasket() {
-        _rcViewBasketVM.value = rcViewBasket.init()
+        _rcViewBasketVM.value = getItemBasketUseCase.init()
     }
 
     // Обновляем или удаляем позицию
     fun updatePositionBasket(adapterPosition: Int, symbol: String) {
-        _rcViewBasketVM.value = rcViewBasket.updatePosition(adapterPosition, symbol)
+        _rcViewBasketVM.value = getItemBasketUseCase.updatePosition(adapterPosition, symbol)
     }
 
     // Кнопка "Оплатить"

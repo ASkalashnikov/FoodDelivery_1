@@ -1,10 +1,10 @@
-package com.kalashnikov.tt_fooddelivery_1.domain.rcviewitems
+package com.kalashnikov.tt_fooddelivery_1.domain.usecase
 
-import com.kalashnikov.tt_fooddelivery_1.domain.model.BasketModel
 import com.kalashnikov.tt_fooddelivery_1.domain.management.AppContext
+import com.kalashnikov.tt_fooddelivery_1.domain.model.BasketModel
 import javax.inject.Inject
 
-class RcViewBasket @Inject constructor() {
+class GetItemBasketUseCase @Inject constructor(){
 
     fun init(): ArrayList<BasketModel> {
         val list = ArrayList<BasketModel>()

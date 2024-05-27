@@ -4,9 +4,9 @@ import com.kalashnikov.tt_fooddelivery_1.data.AppData
 import com.kalashnikov.tt_fooddelivery_1.domain.management.AppContext
 import javax.inject.Inject
 
-class GetTextMenuCapUseCase @Inject constructor() {
+class GetTextMenuCapUseCase @Inject constructor(private val appData: AppData) {
 
     fun execute(): String {
-        return AppData.text_menu_cap[AppContext.positionRcViewMain]
+        return appData.textMenuCap[AppContext.positionRcViewMain]
     }
 }

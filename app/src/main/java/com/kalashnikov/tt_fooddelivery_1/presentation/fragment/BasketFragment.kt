@@ -34,7 +34,7 @@ class BasketFragment : Fragment(), BasketAdapter.InterfaceBasket {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Загрузка данных
+        // Загружаем данные в LiveData
         mvvm.getCity()
         mvvm.getDate()
         initView()

@@ -1,11 +1,12 @@
 package com.kalashnikov.tt_fooddelivery_1.data
 
 import com.kalashnikov.tt_fooddelivery_1.R
+import javax.inject.Inject
 
-object AppData {
+class AppData @Inject constructor() {
 
     // MainFragment
-    val image_menu_cap = listOf(
+    val imageMenuCap = listOf(
         R.drawable.menu_cap_1,
         R.drawable.menu_cap_2,
         R.drawable.menu_cap_3,
@@ -15,7 +16,7 @@ object AppData {
     )
 
     // MenuFragment
-    val text_menu_cap = listOf(
+    val textMenuCap = listOf(
         "Пекарни и кондитерское",
         "Фастфуд",
         "Азиатская кухня",
@@ -42,7 +43,7 @@ object AppData {
     // Данные для категории и диалога
     val id = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8)
 
-    val image_menu = listOf(
+    val imageMenu = listOf(
         R.drawable.menu_1,
         R.drawable.menu_2,
         R.drawable.menu_3,

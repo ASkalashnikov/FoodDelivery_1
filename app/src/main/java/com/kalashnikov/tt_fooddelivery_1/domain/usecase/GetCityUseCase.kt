@@ -20,8 +20,7 @@ class GetCityUseCase @Inject constructor() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 
         // Надо включить данные о место положения
-        fusedLocationProviderClient.lastLocation
-            .addOnSuccessListener {
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener {
                 if (it != null) {
                     val geoCoder = Geocoder(context, Locale.getDefault())
                     val address = geoCoder.getFromLocation(it.latitude, it.longitude, 1)
@@ -29,7 +28,7 @@ class GetCityUseCase @Inject constructor() {
                 }
             }
         withContext(Dispatchers.IO) {
-            TimeUnit.MILLISECONDS.sleep(200)
+            TimeUnit.MILLISECONDS.sleep(500)
         }
         return city
     }

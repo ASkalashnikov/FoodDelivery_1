@@ -1,16 +1,16 @@
-package com.kalashnikov.tt_fooddelivery_1.domain.rcviewitems
+package com.kalashnikov.tt_fooddelivery_1.domain.usecase
 
 import com.kalashnikov.tt_fooddelivery_1.data.AppData
 import com.kalashnikov.tt_fooddelivery_1.domain.model.MainModel
 import javax.inject.Inject
 
-class RcViewMain @Inject constructor() {
+class GetItemMainUseCase @Inject constructor(private val appData: AppData) {
 
     fun init(): ArrayList<MainModel> {
         val list = ArrayList<MainModel>()
 
-        for (i in AppData.image_menu_cap.indices) {
-            val data = MainModel(AppData.image_menu_cap[i])
+        for (i in appData.imageMenuCap.indices) {
+            val data = MainModel(appData.imageMenuCap[i])
             list.add(data)
         }
         return list

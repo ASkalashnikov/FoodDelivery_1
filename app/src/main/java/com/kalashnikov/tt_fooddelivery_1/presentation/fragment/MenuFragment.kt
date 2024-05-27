@@ -44,7 +44,7 @@ class MenuFragment : Fragment(), TagsAdapter.InterfaceTags, CategoriesAdapter.In
         mvvm.getTextMenuCap()
         initView()
 
-        // Загрузка данных
+        // Загружаем данные в LiveData
         mvvm.getTags()
         initRcViewTags()
 

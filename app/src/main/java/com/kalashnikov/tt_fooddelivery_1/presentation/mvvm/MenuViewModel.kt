@@ -3,11 +3,11 @@ package com.kalashnikov.tt_fooddelivery_1.presentation.mvvm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kalashnikov.tt_fooddelivery_1.domain.management.AppContext
 import com.kalashnikov.tt_fooddelivery_1.domain.model.CategoriesModel
 import com.kalashnikov.tt_fooddelivery_1.domain.model.TagsModel
-import com.kalashnikov.tt_fooddelivery_1.domain.management.AppContext
-import com.kalashnikov.tt_fooddelivery_1.domain.rcviewitems.RcViewCategories
-import com.kalashnikov.tt_fooddelivery_1.domain.rcviewitems.RcViewTags
+import com.kalashnikov.tt_fooddelivery_1.domain.usecase.GetItemCategoriesUseCase
+import com.kalashnikov.tt_fooddelivery_1.domain.usecase.GetItemTagsUseCase
 import com.kalashnikov.tt_fooddelivery_1.domain.usecase.GetTextMenuCapUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,8 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MenuViewModel @Inject constructor(
     private val getTextMenuCapUseCase: GetTextMenuCapUseCase,
-    private val rcViewTags: RcViewTags,
-    private val rcViewCategories: RcViewCategories
+    private val getItemTagsUseCase: GetItemTagsUseCase,
+    private val getItemCategoriesUseCase: GetItemCategoriesUseCase
 ): ViewModel() {
 
     private val _textMenuCap = MutableLiveData<String>()
@@ -34,11 +34,11 @@ class MenuViewModel @Inject constructor(
     }
 
     fun getTags() {
-        _rcViewTagsVM.value = rcViewTags.init()
+        _rcViewTagsVM.value = getItemTagsUseCase.init()
     }
 
     fun getCategories(adapterPosition: Int) {
-        _rcViewCategoriesVM.value = rcViewCategories.init(adapterPosition)
+        _rcViewCategoriesVM.value = getItemCategoriesUseCase.init(adapterPosition)
     }
 
     fun resetPosition() {
